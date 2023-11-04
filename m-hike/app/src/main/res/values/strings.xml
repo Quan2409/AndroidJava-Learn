@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">m-hike</string>
+    <string name="nextBtn">Next Button</string>
+    <string name="namehike_validation_msg">Name field is required</string>
+    <string name="locationhike_validation_msg">Location field is required</string>
+    <string name="lengthhike_validation_msg">Length field is required</string>
 </resources>

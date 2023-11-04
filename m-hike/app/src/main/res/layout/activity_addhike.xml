@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="NEW HIKE"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textAlignment="center">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
+        app:errorTextAppearance="@style/error_show">
+
+        <EditText
+            android:id="@+id/nameHike"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:hint="Name of Hike"
+            android:inputType="text"
+            android:background="@drawable/ic_input_border"/>
+
+        <EditText
+            android:id="@+id/locationHike"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:hint="Location"
+            android:inputType="text"
+            android:background="@drawable/ic_input_border"/>
+
+        <EditText
+            android:id="@+id/lengthHike"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:hint="Length"
+            android:inputType="number"
+            android:background="@drawable/ic_input_border"/>
+
+        <EditText
+            android:id="@+id/dateHike"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:hint="Date"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:background="@drawable/ic_input_border">
+        </EditText>
+
+        <Spinner
+          android:id="@+id/level_spinner"
+          android:layout_width="350dp"
+          android:layout_height="50dp"
+          android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:background="@drawable/ic_input_border"/>
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:hint="Description"
+            android:inputType="text"
+            android:background="@drawable/ic_input_border"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="100dp">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:backgroundTint="@color/black"
+            android:text="Back">
+        </Button>
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:text="Add">
+        </Button>
+
+    </LinearLayout>
+</LinearLayout>
+

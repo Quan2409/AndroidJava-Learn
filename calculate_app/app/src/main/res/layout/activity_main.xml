@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="5dp"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:background="@android:color/white">
 
         <TextView
@@ -34,62 +34,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_clear"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="0.9dp"
-            android:layout_marginTop="0.1dp"
-            android:layout_marginRight="5dp"
-            android:background="#3333"
-            android:text="C"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/button_parentheses"
-            android:text="( )"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="0.1dp"
-            android:layout_marginLeft="0.9dp"
-            android:layout_marginRight="5dp"
-            android:background="#3333"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/button_percent"
-            android:text="%"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="0.1dp"
-            android:layout_marginLeft="0.9dp"
-            android:layout_marginRight="5dp"
-            android:background="#3333"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/button_division"
-            android:text="\u00F7"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="0.1dp"
-            android:layout_marginLeft="0.9dp"
-            android:layout_marginRight="0.1dp"
-            android:background="#3333"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.4"
         android:orientation="horizontal">
 
         <Button
@@ -129,8 +74,8 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/button_multiplication"
-            android:text="x"
+            android:id="@+id/button_division"
+            android:text="/"
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_marginTop="0.1dp"
@@ -144,7 +89,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.4"
         android:orientation="horizontal">
 
         <Button
@@ -184,8 +129,8 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/button_subtraction"
-            android:text="-"
+            android:id="@+id/button_multiplication"
+            android:text="*"
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_marginTop="0.1dp"
@@ -199,7 +144,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.4"
         android:orientation="horizontal">
 
         <Button
@@ -239,8 +184,8 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/button_addition"
-            android:text="+"
+            android:id="@+id/button_subtraction"
+            android:text="-"
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_marginTop="0.1dp"
@@ -254,8 +199,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.4"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_clear"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="0.9dp"
+            android:layout_marginTop="0.1dp"
+            android:layout_marginRight="5dp"
+            android:background="#3333"
+            android:text="C"
+            android:textColor="@android:color/black"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/button_zero"
@@ -270,8 +227,8 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/button_dot"
-            android:text="."
+            android:id="@+id/button_equal"
+            android:text="="
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_marginTop="0.1dp"
@@ -282,13 +239,13 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/button_equal"
-            android:text="="
-            android:layout_width="200dp"
+            android:id="@+id/button_addition"
+            android:text="+"
+            android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_marginTop="0.1dp"
             android:layout_marginLeft="0.9dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0.1dp"
             android:background="#3333"
             android:textColor="@android:color/black"
             android:textSize="30sp" />

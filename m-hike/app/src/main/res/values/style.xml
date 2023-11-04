@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="error_show" parent="android:style/TextAppearance">
+        <item name="android:textColor">@color/red</item>
+    </style>
+    <color name="red">#F44336</color>
+</resources>
