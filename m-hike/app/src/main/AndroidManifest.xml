@@ -12,44 +12,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mhike"
         tools:targetApi="31">
+
         <activity
-            android:name=".HomePage"
-            android:label="@string/app_name"
-            android:exported="true">
+            android:name=".HomePageActivity"
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListHike"
-            android:label="@string/app_name"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".ListHikeActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
         <activity
-            android:name=".AddHike"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".NewHikeActivity"
+            android:exported="true" />
         <activity
-            android:name=".ConfirmHike"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".DetailHikeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UpdateHikeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".NewObservationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ListObservationActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/list_hike_layout">
+
+    <android.widget.SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:padding="10dp"
+        android:hint="Search Hike..."
+        android:inputType="text"
+        android:background="@drawable/custom_border_edittext"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="600dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/add_new_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="160dp"
+        android:backgroundTint="@color/black"
+        android:text="+"
+        android:textSize="25dp"/>
+</LinearLayout>
