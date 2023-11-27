@@ -4,20 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder> {
     Activity activity;
@@ -37,38 +32,18 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
     @NonNull
     @Override
     public HikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recycle_hike, parent, false);
-        return new HikeViewHolder(v);
+        return new HikeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recycle_hike, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull HikeViewHolder holder, int position) {
-
         HikeModal hikeModal = listHike.get(position);
-        holder.rcNameHike.setText(hikeModal.getName());
-        holder.rcLocationHike.setText(hikeModal.getLocation());
-        holder.rcLengthHike.setText(hikeModal.getLength());
-        holder.rcDateHike.setText(hikeModal.getDate());
-        holder.rcLevelHike.setText(hikeModal.getLevel());
-        holder.rcLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (context != null) {
-                    Intent intent = new Intent(context, DetailHikeActivity.class);
-                    intent.putExtra("id", String.valueOf(hikeModal.getId()));
-                    intent.putExtra("name", hikeModal.getName());
-                    intent.putExtra("location", hikeModal.getLocation());
-                    intent.putExtra("length", hikeModal.getLength());
-                    intent.putExtra("date", hikeModal.getDate());
-                    intent.putExtra("level", hikeModal.getLevel());
-                    intent.putExtra("parking", hikeModal.getParking());
-                    intent.putExtra("description",hikeModal.getDescription());
-                    activity.startActivityForResult(intent, 1);
-                } else {
-                    Log.e("HikeAdapter", "Context is null. Unable to start DetailHikeActivity.");
-                }
-            }
-        });
+        holder.rcNameHike.setText(hikeModal.getHikeName());
+        holder.rcLocationHike.setText(hikeModal.getHikeLocation());
+        holder.rcLengthHike.setText(hikeModal.getHikeLength());
+        holder.rcDateHike.setText(hikeModal.getHikeDate());
+        holder.rcLevelHike.setText(hikeModal.getHikeLevel());
+        holder.rcLayout.setOnClickListener(v -> sendDataToDetailPage(hikeModal));
     }
 
     @Override
@@ -79,7 +54,6 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
     public class HikeViewHolder extends RecyclerView.ViewHolder {
         TextView rcNameHike, rcLocationHike, rcLengthHike, rcDateHike, rcLevelHike;
         CardView rcLayout;
-
         public HikeViewHolder(@NonNull View itemView) {
             super(itemView);
             rcNameHike = itemView.findViewById(R.id.rc_name_hike);
@@ -96,13 +70,14 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
+                String charString = constraint.toString().toLowerCase();
                 if (charString.isEmpty()) {
                     listHike = filterHike;
                 } else {
                     ArrayList<HikeModal> filteredList = new ArrayList<>();
                     for(HikeModal hikeModal : filterHike) {
-                        if(hikeModal.getName().toLowerCase().contains(charString)) {
+                        String name = hikeModal.getHikeName().toLowerCase();
+                        if(name.toLowerCase().contains(charString) || name.toUpperCase().contains(charString) || name.startsWith(charString)) {
                             filteredList.add(hikeModal);
                         }
                     }
@@ -119,5 +94,18 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.HikeViewHolder
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void sendDataToDetailPage(HikeModal hikeModal) {
+            Intent intent = new Intent(context, DetailHikeActivity.class);
+            intent.putExtra("hike-id", String.valueOf(hikeModal.getHikeID()));
+            intent.putExtra("hike-name", hikeModal.getHikeName());
+            intent.putExtra("hike-location", hikeModal.getHikeLocation());
+            intent.putExtra("hike-length", hikeModal.getHikeLength());
+            intent.putExtra("hike-date", hikeModal.getHikeDate());
+            intent.putExtra("hike-level", hikeModal.getHikeLevel());
+            intent.putExtra("hike-parking", hikeModal.getHikeParking());
+            intent.putExtra("hike-description",hikeModal.getHikeDescription());
+            activity.startActivityForResult(intent, 1);
     }
 }

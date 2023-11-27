@@ -60,16 +60,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Pick a Date"
-                android:backgroundTint="@color/black" />
+                android:backgroundTint="@color/black"
+                android:text="Pick a Date" />
 
             <TextView
                 android:id="@+id/editDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="17dp"
-                android:text="View Date"/>
+                android:text="View Date"
+                android:textSize="17dp" />
         </LinearLayout>
 
         <Spinner

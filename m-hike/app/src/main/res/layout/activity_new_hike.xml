@@ -132,30 +132,14 @@
             android:background="@drawable/custom_border_edittext"/>
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/addNewHikeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="100dp">
-
-        <Button
-            android:id="@+id/backToListButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:backgroundTint="@color/black"
-            android:text="Back">
-        </Button>
-
-        <Button
-            android:id="@+id/addNewHikeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="Add">
-        </Button>
-
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="170dp"
+        android:backgroundTint="@color/black"
+        android:text="Add">
+    </Button>
 </LinearLayout>
 

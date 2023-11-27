@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,19 +19,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.m_hike.databinding.ActivityUpdateHikeBinding;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class UpdateHikeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    Spinner update_name, update_location, update_length, update_level;
+    ActivityUpdateHikeBinding binding;
+    Spinner update_name;
+    Spinner update_location;
+    Spinner update_length;
+    Spinner update_level;
+    TextView update_description;
+    TextView viewDate;
     RadioGroup radioGroup;
-    RadioButton update_btn;
-    TextView update_date, update_description, viewDate;
-    Button updateItemButton, chooseDate;
-    HikeAdapter hikeAdapter;
+    RadioButton selectedRadioButton;
+    Button updateButton, chooseDate;
 
+    DatabaseHelper dbHelper;
+    HikeModal hikeModal;
+    Context context = UpdateHikeActivity.this;
 
     String[] nameHike = new String[] {"Pick a Hike", "Sapa Bamboo Trail", "Mount Fansipan Trail", "West Lake Loop"};
     String[] locationHike = new String[] {"Location", "Sapa - LaoCai", "Hoang Lien National Park", "TayHo - HaNoi"};
@@ -41,47 +52,38 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_hike);
-        mappingID();
-        getIntentData();
-        getItemClicked();
+        getIntentDataFromDetail();
+        bindingID();
+        setOnClick();
+    }
 
-        updateItemButton.setOnClickListener(v -> {
-            DatabaseHelper DB = new DatabaseHelper(UpdateHikeActivity.this);
-            String newName = update_name.getSelectedItem().toString();
-            String newLocation = update_location.getSelectedItem().toString();
-            String newLength = update_length.getSelectedItem().toString();
-            String newDate = viewDate.getText().toString();
-            String newLevel = update_level.getSelectedItem().toString();
-            String newParking = update_btn.getText().toString();
-            String newDescription = update_description.getText().toString();
+    public void bindingID() {
+        update_name = binding.nameEdit;
+        update_location = binding.locationEdit;
+        update_length = binding.lengthEdit;
+        update_level = binding.levelEdit;
+        viewDate = binding.editDate;
+        update_description = binding.descriptionEdit;
+        updateButton = binding.updateItemButton;
+    }
 
-            HikeModal newHikeModal = new HikeModal(Integer.parseInt(id), newName, newLocation, newLength, newDate, newLevel, newParking, newDescription);
-            DB.handleUpdate(newHikeModal);
-            refreshUI();
-            Intent intent = new Intent(this, ListHikeActivity.class);
-            startActivity(intent);
+    public void setOnClick() {
+        updateButton.setOnClickListener(v -> {
+            updateHike();
         });
 
-        //Setup Button Show Calender
         chooseDate.setOnClickListener(v -> {
             DialogFragment datePicker = new DatePickerFragment();
             datePicker.show(getSupportFragmentManager(), "date picker");
         });
-    }
 
-    public void mappingID() {
-        updateItemButton = findViewById(R.id.updateItemButton);
-        chooseDate = findViewById(R.id.chooseDate);
-        viewDate = findViewById(R.id.editDate);
-        update_name = findViewById(R.id.name_edit);
-        update_location = findViewById(R.id.location_edit);
-        update_length = findViewById(R.id.length_edit);
-        update_date = findViewById(R.id.editDate);
-        update_level = findViewById(R.id.level_edit);
-        update_description = findViewById(R.id.description_edit);
-        radioGroup = findViewById(R.id.radio_group);
-        update_btn = findViewById(R.id.yes_btn);
-        update_btn = findViewById(R.id.no_btn);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                selectedRadioButton = findViewById(checkedId);
+            }
+        });
+        getItemSelected();
     }
 
     @Override
@@ -93,26 +95,29 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-MM-dd", Locale.getDefault());
         String currentDate = dateFormat.getDateInstance().format(calender.getTime());
         viewDate.setText(currentDate);
+        if(viewDate.getText().toString().equals("View Date")) {
+            viewDate.setTextColor(Color.RED);
+            viewDate.setText("Pick A Date, Please");
+        }
     }
 
-    public void getIntentData() {
+    public void getIntentDataFromDetail() {
         if (getIntent().hasExtra("id-value") && getIntent().hasExtra("name-value") && getIntent().hasExtra("name-value") && getIntent().hasExtra("location-value") && getIntent().hasExtra("length-value") &&
                 getIntent().hasExtra("date-value") && getIntent().hasExtra("level-value") && getIntent().hasExtra("parking-value") && getIntent().hasExtra("description-value")) {
 
             id = getIntent().getStringExtra("id-value");
-
             description = getIntent().getStringExtra("description-value");
             update_description.setText(description);
-
             name = getIntent().getStringExtra("name-value");
-           update_name.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, nameHike));
-           if (name.equals("Sapa Bamboo Trail")) {
-               update_name.setSelection(1);
-           } else if (name.equals("Mount Fansipan Trail")) {
-               update_name.setSelection(2);
-           } else if (name.equals("West Lake Loop")) {
-               update_name.setSelection(3);
-           }
+
+            update_name.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, nameHike));
+            if (name.equals("Sapa Bamboo Trail")) {
+                update_name.setSelection(1);
+            }else if (name.equals("Mount Fansipan Trail")) {
+                update_name.setSelection(2);
+            }else if (name.equals("West Lake Loop")) {
+                update_name.setSelection(3);
+            }
 
            location = getIntent().getStringExtra("location-value");
            update_location.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, locationHike));
@@ -135,7 +140,7 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
            }
 
            date = getIntent().getStringExtra("date-value");
-           update_date.setText(date);
+           viewDate.setText(date);
 
            level = getIntent().getStringExtra("level-value");
            update_level.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, levels));
@@ -148,18 +153,19 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
            }
 
            parking = getIntent().getStringExtra("parking-value");
-            if (parking.equals("Yes")) {
-                update_btn = findViewById(R.id.yes_btn);
-                update_btn.setChecked(true);
-            } else {
-                update_btn.setChecked(true);
+            if (parking.equals("Yes") || parking.equals("No")) {
+                selectedRadioButton.setChecked(true);
             }
+
+            description = getIntent().getStringExtra("description-value");
+            update_description.setText(description);
+
         } else {
             Toast.makeText(this, "No Data", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void getItemClicked() {
+    public void getItemSelected() {
         update_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -172,12 +178,15 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
                 } else if (update_name.getSelectedItem().equals("West Lake Loop")) {
                     update_location.setSelection(3);
                     update_length.setSelection(3);
+                } else if (update_name.getSelectedItem().equals("Pick a Hike")) {
+                    TextView errorNameHike = (TextView) update_name.getSelectedView();
+                    errorNameHike.setError("");
+                    errorNameHike.setTextColor(Color.RED);
+                    errorNameHike.setText("Pick A Hike Please");
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //...
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         update_location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -192,6 +201,11 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
                 } else if (update_location.getSelectedItem().equals("TayHo - HaNoi")) {
                     update_name.setSelection(3);
                     update_length.setSelection(3);
+                } else if (update_name.getSelectedItem().equals("Location")) {
+                    TextView errorLocationHike = (TextView) update_location.getSelectedView();
+                    errorLocationHike.setError("");
+                    errorLocationHike.setTextColor(Color.RED);
+                    errorLocationHike.setText("Choose Location Please");
                 }
             }
             @Override
@@ -212,29 +226,32 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
                 } else if (update_length.getSelectedItem().equals("15.0km")) {
                     update_name.setSelection(3);
                     update_location.setSelection(3);
+                } else if (update_name.getSelectedItem().equals("Length")) {
+                    TextView errorLengthHike = (TextView) update_length.getSelectedView();
+                    errorLengthHike.setError("");
+                    errorLengthHike.setTextColor(Color.RED);
+                    errorLengthHike.setText("Choose Length Please");
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //...
-            }
-        });
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (update_btn.equals(findViewById(R.id.yes_btn))) {
-                    update_btn = findViewById(radioGroup.getCheckedRadioButtonId());
-                } else if (update_btn.equals(findViewById(R.id.no_btn))) {
-                    update_btn = findViewById(radioGroup.getCheckedRadioButtonId());
-                }
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
-    private void refreshUI() {
-        if (hikeAdapter != null) {
-           hikeAdapter.notifyDataSetChanged();
-        }
+
+    public void updateHike() {
+        dbHelper = new DatabaseHelper(context);
+        String newName = update_name.getSelectedItem().toString();
+        String newLocation = update_location.getSelectedItem().toString();
+        String newLength = update_length.getSelectedItem().toString();
+        String newDate = viewDate.getText().toString();
+        String newLevel = update_level.getSelectedItem().toString();
+        String newParking = radioGroup.toString();
+        String newDescription = update_description.getText().toString();
+
+        hikeModal = new HikeModal(Integer.parseInt(id), newName, newLocation, newLength, newDate, newLevel, newParking, newDescription);
+        dbHelper.handleUpdateHike(hikeModal);
+        Intent intent = new Intent(context, ListHikeActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,89 +1,50 @@
 package com.example.m_hike;
 
 public class HikeModal {
-    private int id;
-    private String name;
-    private String location;
-    private String length;
-    private String level;
-    private String date;
-    private String parking;
-    private String description;
+    private int hikeID;
+    private String hikeName;
+    private String hikeLocation;
+    private String hikeLength;
+    private String hikeLevel;
+    private String hikeDate;
+    private String hikeParking;
+    private String hikeDescription;
 
     //Constructor
-    public HikeModal(int id, String name, String location, String length, String level, String date, String parking, String description) {
-        this.id = id;
-        this.name = name;
-        this.location = location;
-        this.length = length;
-        this.level = level;
-        this.date = date;
-        this.parking = parking;
-        this.description = description;
+    public HikeModal(int HikeID, String HikeName , String HikeLocation, String HikeLength, String HikeLevel, String HikeDate, String HikeParking, String HikeDescription) {
+        this.hikeID = HikeID;
+        this.hikeName = HikeName;
+        this.hikeLocation = HikeLocation;
+        this.hikeLength = HikeLength;
+        this.hikeDate = HikeDate;
+        this.hikeLevel = HikeLevel;
+        this.hikeParking = HikeParking;
+        this.hikeDescription = HikeDescription;
     }
 
-    //Getter and Setter
-    public int getId() {
-        return id;
+    //Getter
+    public int getHikeID() {
+        return hikeID;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    public String getHikeName() {
+        return hikeName;
     }
-
-    public String getName() {
-        return name;
+    public String getHikeLocation() {
+        return hikeLocation;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getHikeLength() {
+        return hikeLength;
     }
-
-    public String getLocation() {
-        return location;
+    public String getHikeLevel() {
+        return hikeLevel;
     }
-
-    public void setLocation(String location) {
-        this.location = location;
+    public String getHikeDate() {
+        return hikeDate;
     }
-
-    public String getLength() {
-        return length;
+    public String getHikeParking() {
+        return hikeParking;
     }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getParking() {
-        return parking;
-    }
-
-    public void setParking(String parking) {
-        this.parking = parking;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getHikeDescription() {
+        return hikeDescription;
     }
 }

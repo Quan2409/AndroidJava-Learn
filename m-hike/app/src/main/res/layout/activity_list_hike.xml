@@ -22,14 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleView"
+            android:id="@+id/hike_recycle_iew"
             android:layout_width="match_parent"
             android:layout_height="600dp">
         </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
     <Button
-        android:id="@+id/add_new_button"
+        android:id="@+id/hike_add_new_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

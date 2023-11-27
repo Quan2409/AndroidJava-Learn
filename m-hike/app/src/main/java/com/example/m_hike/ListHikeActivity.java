@@ -4,56 +4,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Toast;
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.m_hike.databinding.ActivityListHikeBinding;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListHikeActivity extends AppCompatActivity {
-
-    SearchView searchBar;
+    ActivityListHikeBinding binding;
     Button addNewButton;
-    RecyclerView recyclerView;
-
-    Context context = ListHikeActivity.this;
+    SearchView searchBar;
     Cursor cursor;
-    ArrayList<HikeModal> allHike = new ArrayList<>();
+    DatabaseHelper dbHelper;
     HikeAdapter hikeAdapter;
+    RecyclerView hikeRecyclerView;
+    Context context = ListHikeActivity.this;
+    ArrayList<HikeModal> allHike = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_hike);
-        mappingID();
+        binding = ActivityListHikeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        readAllHike();
+        setOnClick();
 
-        DatabaseHelper DB = new DatabaseHelper(this);
-        allHike = DB.handleRead();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+        //Binding ID
+        searchBar = binding.searchBar;
+        addNewButton = binding.hikeAddNewButton;
+    }
 
-        if (allHike.size() > 0){
-            recyclerView.setVisibility(View.VISIBLE);
-            hikeAdapter = new HikeAdapter(this, context, cursor, allHike);
-            recyclerView.setAdapter(hikeAdapter);
-        } else  {
-            recyclerView.setVisibility(View.GONE);
-            Toast.makeText(this, "No Data", Toast.LENGTH_LONG).show();
-        }
-
+    public void setOnClick() {
         addNewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, NewHikeActivity.class);
+            Intent intent = new Intent(context, NewHikeActivity.class);
             startActivity(intent);
         });
 
@@ -81,10 +70,14 @@ public class ListHikeActivity extends AppCompatActivity {
         }
     }
 
-    public void mappingID() {
-       addNewButton = findViewById(R.id.add_new_button);
-       searchBar = findViewById(R.id.search_bar);
-       recyclerView = findViewById(R.id.recycleView);
+    public void readAllHike() {
+        hikeRecyclerView = binding.hikeRecycleIew;
+        dbHelper = new DatabaseHelper(context);
+        allHike = dbHelper.handleReadAllHike();
+        hikeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        hikeRecyclerView.setHasFixedSize(true);
+        hikeAdapter = new HikeAdapter(this, context, cursor, allHike);
+        hikeRecyclerView.setAdapter(hikeAdapter);
     }
 }
 
