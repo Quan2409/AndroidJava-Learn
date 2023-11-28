@@ -33,7 +33,7 @@ public class DetailHikeActivity extends AppCompatActivity {
     ImageButton editButton;
     ImageButton observationButton;
     Button deleteButton;
-    RecyclerView obsRecycle;
+    RecyclerView obsRecycleView;
 
     Cursor cursor;
     DatabaseHelper dbHelper;
@@ -41,32 +41,30 @@ public class DetailHikeActivity extends AppCompatActivity {
     String id, name, location, length, date, level, parking, description;
     ArrayList<ObservationModal> allOBS = new ArrayList<>();
     ObservationAdapter obsAdapter;
-    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDetailHikeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingID();
+        setContentView(R.layout.activity_detail_hike);
+        mappingID();
         setOnCLick();
         getIntentDataFromAdapter();
         readAllObservation();
     }
 
-    public void bindingID() {
-        detailID = binding.detailId;
-        detailName = binding.detailName;
-        detailLocation = binding.detailLocation;
-        detailLength = binding.detailLength;
-        detailDate = binding.detailDate;
-        detailLevel = binding.detailLevel;
-        detailParking = binding.detailParking;
-        detailDescription = binding.detailDescription;
-        editButton = binding.editButton;
-        observationButton = binding.observationButton;
-        deleteButton = binding.deleteButton;
-        obsRecycle = binding.observationRecycleView;
+    public void mappingID() {
+        detailID = findViewById(R.id.detailID);
+        detailName = findViewById(R.id.detailName);
+        detailLocation = findViewById(R.id.detailLocation);
+        detailLength = findViewById(R.id.detailLength);
+        detailDate = findViewById(R.id.detailDate);
+        detailLevel = findViewById(R.id.detailLevel);
+        detailParking = findViewById(R.id.detailParking);
+        detailDescription = findViewById(R.id.detailDescription);
+        editButton = findViewById(R.id.editButton);
+        observationButton = findViewById(R.id.observationButton);
+        deleteButton = findViewById(R.id.deleteButton);
+        obsRecycleView = findViewById(R.id.observationRecycleView);
     }
 
     public void setOnCLick() {
@@ -76,6 +74,7 @@ public class DetailHikeActivity extends AppCompatActivity {
 
         observationButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, NewObservationActivity.class);
+            intent.putExtra("detail-id", detailID.getText().toString());
             startActivity(intent);
         });
         deleteButton.setOnClickListener(v-> {
@@ -138,7 +137,7 @@ public class DetailHikeActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
+                dialog.dismiss();
             }
         });
         builder.create().show();
@@ -153,10 +152,10 @@ public class DetailHikeActivity extends AppCompatActivity {
 
     public void readAllObservation() {
         dbHelper = new DatabaseHelper(context);
-        allOBS = dbHelper.handleReadObservation();
-        obsRecycle.setLayoutManager(new LinearLayoutManager(context));
-        obsRecycle.setHasFixedSize(true);
+        allOBS = dbHelper.handleReadObservation(Integer.parseInt(id));
+        obsRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        obsRecycleView.setHasFixedSize(true);
         obsAdapter = new ObservationAdapter(this, context, cursor, allOBS);
-        obsRecycle.setAdapter(obsAdapter);
+        obsRecycleView.setAdapter(obsAdapter);
     }
 }

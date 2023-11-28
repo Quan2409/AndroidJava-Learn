@@ -13,44 +13,67 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import com.example.m_hike.databinding.ActivityNewObservationBinding;
+
 
 public class  NewObservationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
-    ActivityNewObservationBinding binding;
-    Spinner obsNameSpinner = binding.obsNameSpinner;
-    Button chooseTime = binding.chooseTime;
-    Button addBtn = binding.addBtn;
-    TextView viewTime = binding.viewTime;
-    TextView viewComment = binding.commentField;
+    Spinner obsNameSpinner;
+    Button chooseTime;
+    Button saveBtn;
+    TextView viewTime;
+    TextView viewComment;
+    TextView viewID;
+    String getID;
 
     ObservationModal obsModal;
     DatabaseHelper dbHelper;
     Context context = NewObservationActivity.this;
 
     String[] listOBS = {"Choose a Observation", "Animal Tracks", "Rocks Formation", "Fruit from trees", "Creek beds and rivers", "Wild Turkeys"};
-    ArrayAdapter<String> obsAdapter = new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, listOBS);
+
     boolean isAllFieldCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_observation);
-        getOBSClicked();
+        mappingID();
+        setOnClick();
+        getID();
+    }
 
-        addBtn.setOnClickListener(v -> {
+    public void mappingID() {
+        obsNameSpinner = findViewById(R.id.obsNameSpinner);
+        chooseTime = findViewById(R.id.chooseTime);
+        saveBtn = findViewById(R.id.saveBtn);
+        viewTime = findViewById(R.id.viewTime);
+        viewComment = findViewById(R.id.viewComment);
+        viewID = findViewById(R.id.detailID);
+    }
+
+    public void setOnClick() {
+        saveBtn.setOnClickListener(v -> {
             isAllFieldCheck = checkAllField();
             if (isAllFieldCheck) {
                 saveNewObservation();
             }
         });
+
         chooseTime.setOnClickListener(v -> {
             DialogFragment timePicker = new TimePickerFragment();
             timePicker.show(getSupportFragmentManager(), "time-picker");
         });
 
-        obsNameSpinner.setAdapter(obsAdapter);
+        ArrayAdapter<String> obsSpinnerAdapter = new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, listOBS);
+        obsNameSpinner.setAdapter(obsSpinnerAdapter);
     }
 
+    public void getID() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("detail-id")){
+            getID = intent.getStringExtra("detail-id");
+            viewID.setText(getID);
+        }
+    }
 
     public boolean checkAllField() {
         if(obsNameSpinner.getSelectedItem().equals("Choose a Observation")) {
@@ -74,19 +97,14 @@ public class  NewObservationActivity extends AppCompatActivity implements TimePi
         viewTime.setText(hourOfDay + ":" + minute);
     }
 
-    public void getOBSClicked() {
-
-
-    }
-
     public void saveNewObservation() {
         dbHelper = new DatabaseHelper(context);
         String obsNameSelected = obsNameSpinner.getSelectedItem().toString();
         String timeSelected = viewTime.getText().toString();
         String commentWrote = viewComment.getText().toString();
-        obsModal = new ObservationModal(1, dbHelper.getHikeID() ,obsNameSelected, timeSelected, commentWrote);
+        obsModal = new ObservationModal(1, dbHelper.getHikeID(Integer.parseInt(getID)) ,obsNameSelected, timeSelected, commentWrote);
         dbHelper.handleCreateObservation(obsModal);
-        Intent intent = new Intent(context, DetailHikeActivity.class);
+        Intent intent = new Intent(context, ListHikeActivity.class);
         startActivity(intent);
     }
 }

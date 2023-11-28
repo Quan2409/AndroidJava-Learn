@@ -167,25 +167,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Get ID from hiking
-    public int getHikeID() {
+    public int getHikeID(int hikeID) {
         SQLiteDatabase DB = this.getReadableDatabase();
-        String query = "SELECT hike_id FROM hiking ORDER BY hike_id DESC LIMIT 1";
-        Cursor cursor = DB.rawQuery(query, null);
-        int hikeID = -1; //Default Value
+        String query = "SELECT hike_id FROM hiking WHERE hike_id = ?";
+        Cursor cursor = DB.rawQuery(query, new String[]{String.valueOf(hikeID)});
+        int resultHikeID = -1; //Default Value
         if (cursor.moveToFirst()) {
-            hikeID = cursor.getInt(cursor.getColumnIndexOrThrow(HIKE_ID));
+            resultHikeID = cursor.getInt(cursor.getColumnIndexOrThrow(HIKE_ID));
         }
         cursor.close();
-        return hikeID;
+        return resultHikeID;
     }
 
     //Read All Observation
-    public ArrayList<ObservationModal> handleReadObservation() {
-        String selectAllQuery = "SELECT * FROM observation";
+    public ArrayList<ObservationModal> handleReadObservation(int hikeID) {
+        String selectAllQuery = "SELECT * FROM observation WHERE " + HIKE_FOREIGN_KEY + " = ?";
         SQLiteDatabase DB = this.getReadableDatabase();
         ArrayList<ObservationModal> listObservation = new ArrayList<>();
-
-        Cursor cursor = DB.rawQuery(selectAllQuery, null);
+        Cursor cursor = DB.rawQuery(selectAllQuery, new String[]{String.valueOf(hikeID)});
         if (cursor.getCount() == 0) {
             showToastMessage("No Observation To Read");
         } else {

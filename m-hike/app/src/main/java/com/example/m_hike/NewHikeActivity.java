@@ -31,69 +31,65 @@ import java.util.Locale;
 
 public class NewHikeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    ActivityNewHikeBinding binding;
-    Spinner name_spinner;
-    Spinner level_spinner;
-    Spinner location_spinner;
-    Spinner length_spinner;
-    EditText description;
+    Spinner nameSpinner;
+    Spinner levelSpinner;
+    Spinner locationSpinner;
+    Spinner lengthSpinner;
+    EditText viewDescription;
     TextView viewDate;
     Button chooseDate;
-    Button addNewHikeButton;
+    Button saveButton;
     RadioGroup radioGroup;
     RadioButton selectedRadioButton;
+
     Context context = NewHikeActivity.this;
 
-    String[] nameHike = new String[] {"Pick a Hike", "Sapa Bamboo Trail", "Mount Fansipan Trail", "West Lake Loop"};
-    String[] locationHike = new String[] {"Location", "Sapa - LaoCai", "Hoang Lien National Park", "TayHo - HaNoi"};
-    String[] lengthHike = new String[] {"Length", "6.3km", "8.4km", "15.0km"};
-    String[] levels = new String[] { "Level", "Easy", "Moderate", "Hard" };
-
-    ArrayAdapter<String> adapterLength = new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, lengthHike);
-    ArrayAdapter<String> adapterName = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, nameHike );
-    ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, locationHike);
+    String[] allHike = new String[] {"Pick a Hike", "Sapa Bamboo Trail", "Mount Fansipan Trail", "West Lake Loop"};
+    String[] allLocation = new String[] {"Location", "Sapa - LaoCai", "Hoang Lien National Park", "TayHo - HaNoi"};
+    String[] allLength = new String[] {"Length", "6.3km", "8.4km", "15.0km"};
+    String[] allLevel = new String[] { "Level", "Easy", "Moderate", "Hard" };
 
     boolean isAllFieldChecked = false;
-    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityNewHikeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingID();
+        setContentView(R.layout.activity_new_hike);
+        mappingID();
         setOnCLick();
     }
 
-    //Mapping ID from XML
-    public void bindingID() {
-        name_spinner = binding.nameSpinner;
-        location_spinner = binding.locationSpinner;
-        length_spinner = binding.lengthSpinner;
-        level_spinner = binding.levelSpinner;
-        description = binding.description;
-        viewDate = binding.viewDate;
-        addNewHikeButton = binding.addNewHikeButton;
-        chooseDate = binding.chooseDate;
-        radioGroup = binding.radioGroup;
+//    Mapping ID from XML
+    public void mappingID() {
+      nameSpinner = findViewById(R.id.nameSpinner);
+      locationSpinner = findViewById(R.id.locationSpinner);
+      lengthSpinner = findViewById(R.id.lengthSpinner);
+      levelSpinner = findViewById(R.id.levelSpinner);
+      viewDescription = findViewById(R.id.viewDescription);
+      viewDate = findViewById(R.id.viewDate);
+      chooseDate = findViewById(R.id.chooseDate);
+      saveButton = findViewById(R.id.saveButton);
+      radioGroup = findViewById(R.id.radioGroup);
     }
 
     public void setOnCLick() {
-        //onCLick() for add button
-        addNewHikeButton.setOnClickListener(v -> {
+
+        //Save Button
+        saveButton.setOnClickListener(v -> {
             isAllFieldChecked = CheckAllFields();
             if (isAllFieldChecked) {
                 showConfirmDialog();
             }
         });
 
-        //onClick() for choose date
+        //Choose Date Button
         chooseDate.setOnClickListener(v -> {
             DialogFragment datePicker = new DatePickerFragment();
             datePicker.show(getSupportFragmentManager(), "date-picker");
         });
 
-        //onChecked() for radio group
+        //Radio group Checked
+        radioGroup.getCheckedRadioButtonId();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -101,8 +97,81 @@ public class NewHikeActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        //Call Item Selected for Spinner
-        getItemSelected();
+        //Spinner for Name
+        ArrayAdapter<String> nameSpinnerAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, allHike );
+        nameSpinner.setAdapter(nameSpinnerAdapter);
+        nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(nameSpinner.getSelectedItem().equals("Sapa Bamboo Trail")){
+                    locationSpinner.setSelection(1);
+                    lengthSpinner.setSelection(1);
+                } else if(nameSpinner.getSelectedItem().equals("Mount Fansipan Trail")) {
+                    locationSpinner.setSelection(2);
+                    lengthSpinner.setSelection(2);
+                } else if(nameSpinner.getSelectedItem().equals("West Lake Loop")) {
+                    locationSpinner.setSelection(3);
+                    lengthSpinner.setSelection(3);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //...
+            }
+        });
+
+        //Spinner for Location
+        ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<>(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, allLocation);
+        locationSpinner.setAdapter(locationSpinnerAdapter);
+        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(locationSpinner.getSelectedItem().equals("Sapa - Lao Cai")){
+                    nameSpinner.setSelection(1);
+                    lengthSpinner.setSelection(1);
+                } else if(locationSpinner.getSelectedItem().equals("Hoang Lien National Park")) {
+                    nameSpinner.setSelection(2);
+                    lengthSpinner.setSelection(2);
+                } else if (locationSpinner.getSelectedItem().equals("TayHo - HaNoi")) {
+                    nameSpinner.setSelection(3);
+                    lengthSpinner.setSelection(3);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //...
+            }
+        });
+
+        //Spinner for Length
+        ArrayAdapter<String> lengthSpinnerAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, allLength);
+        lengthSpinner.setAdapter(lengthSpinnerAdapter);
+        lengthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (lengthSpinner.getSelectedItem().equals("6.3km")) {
+                    nameSpinner.setSelection(1);
+                    locationSpinner.setSelection(1);
+                } else if (lengthSpinner.getSelectedItem().equals("8.4km")) {
+                    nameSpinner.setSelection(2);
+                    locationSpinner.setSelection(2);
+                } else if (lengthSpinner.getSelectedItem().equals("15.0km")) {
+                    nameSpinner.setSelection(3);
+                    locationSpinner.setSelection(3);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //...
+            }
+        });
+
+        //Spinner for Level
+        ArrayAdapter<String> levelSpinnerAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, allLevel);
+        levelSpinner.setAdapter(levelSpinnerAdapter);
     }
 
     //Date Picker Setup
@@ -119,15 +188,15 @@ public class NewHikeActivity extends AppCompatActivity implements DatePickerDial
 
     //Handle User Input Validation
     public boolean CheckAllFields() {
-        if(name_spinner.getSelectedItem().equals("Pick a Hike")) {
-            TextView errorNameHike = (TextView) name_spinner.getSelectedView();
+        if(nameSpinner.getSelectedItem().equals("Pick a Hike")) {
+            TextView errorNameHike = (TextView) nameSpinner.getSelectedView();
             errorNameHike.setError("");
             errorNameHike.setTextColor(Color.RED);
             errorNameHike.setText("Pick A Hike Please");
         }
 
-        if(level_spinner.getSelectedItem().equals("Level")){
-            TextView errorLevelHike = (TextView) level_spinner.getSelectedView();
+        if(levelSpinner.getSelectedItem().equals("Level")){
+            TextView errorLevelHike = (TextView) levelSpinner.getSelectedView();
             errorLevelHike.setError("");
             errorLevelHike.setTextColor(Color.RED);
             errorLevelHike.setText("Choose Level of Hike");
@@ -142,83 +211,18 @@ public class NewHikeActivity extends AppCompatActivity implements DatePickerDial
         return true;
     }
 
-    public void getItemSelected() {
-        //Name Spinner Setup
-        name_spinner.setAdapter(adapterName);
-        name_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(name_spinner.getSelectedItem().equals("Sapa Bamboo Trail")){
-                    location_spinner.setSelection(1);
-                    length_spinner.setSelection(1);
-                } else if(name_spinner.getSelectedItem().equals("Mount Fansipan Trail")) {
-                    location_spinner.setSelection(2);
-                    length_spinner.setSelection(2);
-                } else if(name_spinner.getSelectedItem().equals("West Lake Loop")) {
-                    location_spinner.setSelection(3);
-                    length_spinner.setSelection(3);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        //Length Spinner Setup
-        length_spinner.setAdapter(adapterLength);
-        length_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (length_spinner.getSelectedItem().equals("6.3km")) {
-                    name_spinner.setSelection(1);
-                    location_spinner.setSelection(1);
-                } else if (length_spinner.getSelectedItem().equals("8.4km")) {
-                    name_spinner.setSelection(2);
-                    location_spinner.setSelection(2);
-                } else if (length_spinner.getSelectedItem().equals("15.0km")) {
-                    name_spinner.setSelection(3);
-                    location_spinner.setSelection(3);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        //Location Spinner Setup
-        location_spinner.setAdapter(adapterLocation);
-        location_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(location_spinner.getSelectedItem().equals("Sapa - Lao Cai")){
-                    name_spinner.setSelection(1);
-                    length_spinner.setSelection(1);
-                } else if(location_spinner.getSelectedItem().equals("Hoang Lien National Park")) {
-                    name_spinner.setSelection(2);
-                    length_spinner.setSelection(2);
-                } else if (location_spinner.getSelectedItem().equals("TayHo - HaNoi")) {
-                    name_spinner.setSelection(3);
-                    length_spinner.setSelection(3);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        // Level Spinner Setup
-        ArrayAdapter<String> adapterLevel = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, levels);
-        level_spinner.setAdapter(adapterLevel);
-    }
-
     //Show Confirm Dialog
     public void showConfirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Hike Information");
-        String message01 = "Name: " + name_spinner.getSelectedItem().toString();
-        String message02 = "Location: " + location_spinner.getSelectedItem().toString();
-        String message03 = "Length: " + length_spinner.getSelectedItem().toString();
+        String message01 = "Name: " + nameSpinner.getSelectedItem().toString();
+        String message02 = "Location: " + locationSpinner.getSelectedItem().toString();
+        String message03 = "Length: " + lengthSpinner.getSelectedItem().toString();
         String message04 = "Date: " + viewDate.getText().toString();
-        String message05 = "Level: " + level_spinner.getSelectedItem().toString();
+        String message05 = "Level: " + levelSpinner.getSelectedItem().toString();
         String message06 = "Parking: " + selectedRadioButton.getText().toString();
-        String finalMessage = message01 + "\n" + message02 + "\n" + message03 + "\n" + message04 + "\n" + message05 + "\n" + message06;
+        String message07 = "Description: " + viewDescription.getText().toString();
+        String finalMessage = message01 + "\n" + message02 + "\n" + message03 + "\n" + message04 + "\n" + message05 + "\n" + message06 + "\n" + message07;
         builder.setMessage(finalMessage);
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
@@ -232,22 +236,24 @@ public class NewHikeActivity extends AppCompatActivity implements DatePickerDial
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
+               dialog.dismiss();
             }
         });
-        builder.create().show();
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //Save New Data to Database
     public void saveNewHike() {
         DatabaseHelper DB = new DatabaseHelper(this);
-        String nameSelected = name_spinner.getSelectedItem().toString();
-        String locationSelected = location_spinner.getSelectedItem().toString();
-        String lengthSelected = length_spinner.getSelectedItem().toString();
+        String nameSelected = nameSpinner.getSelectedItem().toString();
+        String locationSelected = locationSpinner.getSelectedItem().toString();
+        String lengthSelected = lengthSpinner.getSelectedItem().toString();
         String dateSelected = viewDate.getText().toString();
-        String leveSelected = level_spinner.getSelectedItem().toString();
+        String leveSelected = levelSpinner.getSelectedItem().toString();
         String parkingSelected = selectedRadioButton.getText().toString();
-        String descriptionWrote = description.getText().toString();
+        String descriptionWrote = viewDescription.getText().toString();
         HikeModal newHike = new HikeModal(1, nameSelected, locationSelected, lengthSelected, dateSelected, leveSelected, parkingSelected, descriptionWrote);
         DB.handleCreateNewHike(newHike);
     }

@@ -8,7 +8,7 @@
     android:id="@+id/list_hike_layout">
 
     <android.widget.SearchView
-        android:id="@+id/search_bar"
+        android:id="@+id/searchBar"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
@@ -22,14 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hike_recycle_iew"
+            android:id="@+id/hikeRecycleView"
             android:layout_width="match_parent"
             android:layout_height="600dp">
         </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
     <Button
-        android:id="@+id/hike_add_new_button"
+        android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

@@ -17,7 +17,6 @@
     </TextView>
 
     <LinearLayout
-        android:id="@+id/hike_field"
         android:layout_width="350dp"
         android:layout_height="300dp"
         android:layout_marginTop="20dp"
@@ -103,60 +102,60 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/detail_id"
+                android:id="@+id/detailID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="ID Data"/>
+                android:text="ID"/>
 
             <TextView
-                android:id="@+id/detail_name"
+                android:id="@+id/detailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Name Hike-Data"/>
+                android:text="Name"/>
 
             <TextView
-                android:id="@+id/detail_location"
+                android:id="@+id/detailLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Location Hike-Data"/>
+                android:text="Location"/>
 
             <TextView
-                android:id="@+id/detail_length"
+                android:id="@+id/detailLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Length Hike-Data"/>
+                android:text="Length"/>
 
             <TextView
-                android:id="@+id/detail_date"
+                android:id="@+id/detailDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Date Hike-Data"/>
+                android:text="Date"/>
 
             <TextView
-                android:id="@+id/detail_level"
+                android:id="@+id/detailLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
                 android:text="Level Hike-Data"/>
 
             <TextView
-                android:id="@+id/detail_parking"
+                android:id="@+id/detailParking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="Parking Hike-Data"/>
+                android:text="Parking"/>
 
             <TextView
-                android:id="@+id/detail_description"
+                android:id="@+id/detailDescription"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:textSize="17dp"
-                android:text="Description Hike-Data"/>
+                android:text="Description"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -171,7 +170,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/edit_button"
+                    android:id="@+id/editButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="Edit_button"
@@ -181,7 +180,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
-                    android:layout_alignTop="@+id/edit_button"
+                    android:layout_alignTop="@+id/editButton"
                     android:text="Edit"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -194,7 +193,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/observation_button"
+                    android:id="@+id/observationButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -205,7 +204,7 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
-                    android:layout_alignTop="@+id/observation_button"
+                    android:layout_alignTop="@+id/observationButton"
                     android:text="Observation"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -226,7 +225,7 @@
             android:textStyle="bold"
             />
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/observation_recycleView"
+            android:id="@+id/observationRecycleView"
             android:layout_width="300dp"
             android:layout_height="200dp"
             android:layout_marginLeft="40dp"
@@ -235,7 +234,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/delete_button"
+        android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import androidx.annotation.Nullable;
@@ -12,40 +11,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.m_hike.databinding.ActivityListHikeBinding;
-
 import java.util.ArrayList;
 
 public class ListHikeActivity extends AppCompatActivity {
-    ActivityListHikeBinding binding;
-    Button addNewButton;
+
     SearchView searchBar;
+    Button addButton;
+    RecyclerView hikeRecycleView;
     Cursor cursor;
     DatabaseHelper dbHelper;
     HikeAdapter hikeAdapter;
-    RecyclerView hikeRecyclerView;
     Context context = ListHikeActivity.this;
     ArrayList<HikeModal> allHike = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityListHikeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        readAllHike();
+        setContentView(R.layout.activity_list_hike);
+        mappingID();
         setOnClick();
+        readAllHike();
+    }
 
-        //Binding ID
-        searchBar = binding.searchBar;
-        addNewButton = binding.hikeAddNewButton;
+    public void mappingID() {
+        searchBar = findViewById(R.id.searchBar);
+        addButton = findViewById(R.id.addButton);
+        hikeRecycleView = findViewById(R.id.hikeRecycleView);
     }
 
     public void setOnClick() {
-        addNewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(context, NewHikeActivity.class);
-            startActivity(intent);
-        });
-
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -60,6 +54,11 @@ public class ListHikeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, NewHikeActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -71,13 +70,12 @@ public class ListHikeActivity extends AppCompatActivity {
     }
 
     public void readAllHike() {
-        hikeRecyclerView = binding.hikeRecycleIew;
         dbHelper = new DatabaseHelper(context);
         allHike = dbHelper.handleReadAllHike();
-        hikeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        hikeRecyclerView.setHasFixedSize(true);
+        hikeRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        hikeRecycleView.setHasFixedSize(true);
         hikeAdapter = new HikeAdapter(this, context, cursor, allHike);
-        hikeRecyclerView.setAdapter(hikeAdapter);
+        hikeRecycleView.setAdapter(hikeAdapter);
     }
 }
 

@@ -10,7 +10,6 @@ import com.example.m_hike.databinding.ActivityHomePageBinding;
 public class HomePageActivity extends AppCompatActivity {
     Button moveToListButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
