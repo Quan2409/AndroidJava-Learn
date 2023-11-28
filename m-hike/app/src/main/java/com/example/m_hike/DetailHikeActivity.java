@@ -151,11 +151,11 @@ public class DetailHikeActivity extends AppCompatActivity {
     }
 
     public void readAllObservation() {
+        obsAdapter = new ObservationAdapter(this, context, cursor, allOBS);
+        obsRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        obsRecycleView.setAdapter(obsAdapter);
+        obsRecycleView.setHasFixedSize(true);
         dbHelper = new DatabaseHelper(context);
         allOBS = dbHelper.handleReadObservation(Integer.parseInt(id));
-        obsRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        obsRecycleView.setHasFixedSize(true);
-        obsAdapter = new ObservationAdapter(this, context, cursor, allOBS);
-        obsRecycleView.setAdapter(obsAdapter);
     }
 }

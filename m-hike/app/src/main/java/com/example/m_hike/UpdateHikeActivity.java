@@ -241,7 +241,6 @@ public class UpdateHikeActivity extends AppCompatActivity implements DatePickerD
         String newLevel = getLevel.getSelectedItem().toString();
         String newParking = selectedRadioButton.getText().toString();
         String newDescription = getDescription.getText().toString();
-
         hikeModal = new HikeModal(Integer.parseInt(id), newName, newLocation, newLength, newDate, newLevel, newParking, newDescription);
         dbHelper.handleUpdateHike(hikeModal);
         Intent intent = new Intent(context, ListHikeActivity.class);

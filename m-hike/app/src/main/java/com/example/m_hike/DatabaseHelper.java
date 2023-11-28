@@ -49,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + HIKE_DESCRIPTION + " TEXT"
                 + ");");
 
+        //Create Table observation
         DB.execSQL("CREATE TABLE observation ("
                 + OBSERVATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + OBSERVATION_NAME + " TEXT, "
@@ -96,8 +97,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             showToastMessage("No data to read");
         } else {
             while (cursor.moveToNext()){
-                HikeModal hike  = getHikeFromCursor(cursor);
-                hikeList.add(hike);
+                int hikeID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(HIKE_ID)));
+                String hikeName = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_NAME));
+                String hikeLocation = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LOCATION));
+                String hikeLength = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LENGTH));
+                String hikeDate = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_DATE));
+                String hikeLevel = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LEVEL));
+                String hikeParking = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_PARKING));
+                String hikeDescription = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_DESCRIPTION));
+                hikeList.add(new HikeModal(hikeID, hikeName, hikeLocation ,hikeLength, hikeDate, hikeLevel, hikeParking, hikeDescription ));
             }
         }
         cursor.close();
@@ -126,6 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DB.close();
     }
 
+    //Delete Hike
     public void handleDeleteHike(int id) {
         SQLiteDatabase DB = this.getWritableDatabase();
         boolean isDeleteSuccess = false;
@@ -189,8 +198,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             showToastMessage("No Observation To Read");
         } else {
             while (cursor.moveToNext()) {
-                ObservationModal observation = getObservationCursor(cursor);
-                listObservation.add(observation);
+                int id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATION_ID)));
+                int hike_id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(HIKE_FOREIGN_KEY)));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_NAME));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_TIME));
+                String comment = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_COMMENT));
+                listObservation.add(new ObservationModal(id, hike_id, name, time, comment));
             }
         }
         cursor.close();
@@ -224,29 +237,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             showToastMessage("Delete Observation Success");
         }
-    }
-
-    //Function to get Hike from Cursor
-    private HikeModal getHikeFromCursor(Cursor cursor) {
-        int id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(HIKE_ID)));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_NAME));
-        String location = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LOCATION));
-        String length = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LENGTH));
-        String date = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_DATE));
-        String level = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_LEVEL));
-        String parking = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_PARKING));
-        String description = cursor.getString(cursor.getColumnIndexOrThrow(HIKE_DESCRIPTION));
-        return new HikeModal(id, name, location, length, date, level, parking, description);
-    }
-
-    //Function to get Observation from Cursor
-    private ObservationModal getObservationCursor(Cursor cursor) {
-        int id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATION_ID)));
-        int hike_id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(HIKE_FOREIGN_KEY)));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_NAME));
-        String time = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_TIME));
-        String comment = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.OBSERVATION_COMMENT));
-        return new ObservationModal(id, hike_id, name, time, comment);
     }
 
     //Function to show Toast Message
