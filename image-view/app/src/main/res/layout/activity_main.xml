@@ -12,20 +12,21 @@
         android:src="@drawable/warriot01"
         android:layout_marginTop="100dp"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:id="@+id/backwardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Backward"
-            >
+           android:layout_marginRight="10dp"
+            android:layout_marginLeft="50dp"
+            android:text="Backward">
         </Button>
 
         <Button
@@ -36,7 +37,7 @@
             android:layout_alignBaseline="@+id/backwardButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="Frontward">
+            android:text="Forward">
         </Button>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

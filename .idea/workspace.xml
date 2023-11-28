@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afba5bc1-fb80-4378-a784-5cb1d1067325" name="Changes" comment="" />
+    <list default="true" id="afba5bc1-fb80-4378-a784-5cb1d1067325" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +27,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "D:/Programming/mobile-dev/android/projects/image-view",
+    "last_opened_file_path": "D:/Programming/mobile-dev/android/android-projects/m-hike",
     "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
 }]]></component>

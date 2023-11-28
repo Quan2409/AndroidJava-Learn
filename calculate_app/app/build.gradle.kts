@@ -15,6 +15,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    viewBinding {
+        enable = true;
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -33,7 +37,7 @@ android {
 dependencies {
     implementation ("io.apisense:rhino-android:1.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.faendir.rhino:rhino-android:1.5.2")
+    implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07")
